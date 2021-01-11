@@ -1,93 +1,66 @@
-<?php 
-require('top.php');
+<?php
+require('connection.inc.php');
+require('functions.inc.php');
+$msg='';
+if(isset($_POST['submit'])){
+	$username=get_safe_value($con,$_POST['username']);
+	$password=get_safe_value($con,$_POST['password']);
+	$sql="select * from admin_user where username='$username' and password='$password'";
+	$res=mysqli_query($con,$sql);
+	$count=mysqli_num_rows($res);
+	if($count>0){
+		$_SESSION['ADMIN_LOGIN']='yes';
+		$_SESSION['ADMIN_USERNAME']=$username;
+		header('location:categories.php');
+		die();
+	}else{
+		$msg="Please enter correct login details";	
+	}
+	
+}
 ?>
-<!-- Start Bradcaump area -->
-        <div>
- <a class="breadcrumb-item" href="index.php">Home</a>
- <span class="brd-separetor"><i class="zmdi zmdi-chevron-right"></i></span>
- <a class="breadcrumb-item" href="login.php">Log in/ Register</a>
-        </div>
-        <!-- End Bradcaump area -->
-        
-		<!-- Start Contact Area -->
-        <section class="htc__contact__area ptb--100 bg__white">
-            <div class="container">
-                <div class="row">
-					<div class="col-md-6">
-						<div class="contact-form-wrap mt--60">
-							<div class="col-xs-12">
-								<div class="contact-title">
-									<h2 class="title__line--6">Login</h2>
-								</div>
-							</div>
-							<div class="col-xs-12">
-								<form id="contact-form" action="#" method="post">
-									<div class="single-contact-form">
-										<div class="contact-box name">
-											<input type="text" name="name" placeholder="Your Email*" style="width:100%">
-										</div>
-									</div>
-									<div class="single-contact-form">
-										<div class="contact-box name">
-											<input type="text" name="name" placeholder="Your Password*" style="width:100%">
-										</div>
-									</div>
-									
-									<div class="contact-btn">
-										<button type="submit" class="fv-btn">Login</button>
-									</div>
-								</form>
-								<div class="form-output">
-									<p class="form-messege"></p>
-								</div>
-							</div>
-						</div> 
-                
-				</div>
-				
-
-					<div class="col-md-6">
-						<div class="contact-form-wrap mt--60">
-							<div class="col-xs-12">
-								<div class="contact-title">
-									<h2 class="title__line--6">Register</h2>
-								</div>
-							</div>
-							<div class="col-xs-12">
-								<form id="contact-form" action="#" method="post">
-									<div class="single-contact-form">
-										<div class="contact-box name">
-											<input type="text" name="name" placeholder="Your Name*" style="width:100%">
-										</div>
-									</div>
-									<div class="single-contact-form">
-										<div class="contact-box name">
-											<input type="text" name="name" placeholder="Your Email*" style="width:100%">
-										</div>
-									</div>
-									<div class="single-contact-form">
-										<div class="contact-box name">
-											<input type="text" name="name" placeholder="Your Mobile*" style="width:100%">
-										</div>
-									</div>
-									<div class="single-contact-form">
-										<div class="contact-box name">
-											<input type="text" name="name" placeholder="Your Password*" style="width:100%">
-										</div>
-									</div>
-									
-									<div class="contact-btn">
-										<button type="submit" class="fv-btn">Register</button>
-									</div>
-								</form>
-								<div class="form-output">
-									<p class="form-messege"></p>
-								</div>
-							</div>
-						</div> 
-                
-				</div>
-					
+<!doctype html>
+<html class="no-js" lang="">
+   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Login Page</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="assets/css/normalize.css">
+      <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+      <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+      <link rel="stylesheet" href="assets/css/themify-icons.css">
+      <link rel="stylesheet" href="assets/css/pe-icon-7-filled.css">
+      <link rel="stylesheet" href="assets/css/flag-icon.min.css">
+      <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
+      <link rel="stylesheet" href="assets/css/style.css">
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+   </head>
+   <body class="bg-dark">
+      <div class="sufee-login d-flex align-content-center flex-wrap">
+         <div class="container">
+            <div class="login-content">
+               <div class="login-form mt-150">
+                  <form method="post">
+                     <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" name="username" class="form-control" placeholder="Username" required>
+                     </div>
+                     <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                     </div>
+                     <button type="submit" name="submit" class="btn btn-success btn-flat m-b-30 m-t-30">Sign in</button>
+					</form>
+					<div class="field_error"><?php echo $msg?></div>
+               </div>
             </div>
-        </section>
-<?php require('footer.php')?>        
+         </div>
+      </div>
+      <script src="assets/js/vendor/jquery-2.1.4.min.js" type="text/javascript"></script>
+      <script src="assets/js/popper.min.js" type="text/javascript"></script>
+      <script src="assets/js/plugins.js" type="text/javascript"></script>
+      <script src="assets/js/main.js" type="text/javascript"></script>
+   </body>
+</html>
